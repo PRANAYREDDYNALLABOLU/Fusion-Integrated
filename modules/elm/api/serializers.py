@@ -12,6 +12,7 @@ class LeaveApplicationSerializer(serializers.ModelSerializer):
         read_only_fields = fields
 
 
+#leave balance serialiszer
 class LeaveBalanceSerializer(serializers.ModelSerializer):
     remaining = serializers.SerializerMethodField()
 
