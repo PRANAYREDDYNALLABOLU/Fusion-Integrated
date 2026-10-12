@@ -8,8 +8,7 @@ from rest_framework.views import APIView
 
 from core.api.exceptions import BadRequestError
 from fusion_auth.permissions import HasPermission
-from modules.directory.models import UserRef
-from modules.elm import services
+
 from modules.elm.api.serializers import (
     ApplyInputSerializer, LeaveApplicationSerializer, LeaveBalanceSerializer)
 from modules.elm.models import LeaveApplication, LeaveApplicationStatus
@@ -39,16 +38,7 @@ class ApplicationsView(APIView):
 
     @extend_schema(request=ApplyInputSerializer,
                    responses=LeaveApplicationSerializer)
-    def post(self, request):
-        data = ApplyInputSerializer(data=request.data)
-        data.is_valid(raise_exception=True)
-        try:
-            application = services.submit_application(
-                user=_caller(request), **data.validated_data)
-        except ValueError as exc:
-            raise BadRequestError(str(exc), code="invalid_leave_request") from exc
-        return Response(LeaveApplicationSerializer(application).data,
-                        status=status.HTTP_201_CREATED)
+   
 
 
 class BalancesView(APIView):
